@@ -1,5 +1,9 @@
 package com.uday.repo;
 
-public interface StudentEnqRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.uday.entity.StudentEnqEntity;
+
+public interface StudentEnqRepo extends JpaRepository<StudentEnqEntity, Integer> {
 
 }
