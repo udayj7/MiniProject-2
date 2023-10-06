@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.uday.binding.DashboardResponse;
 import com.uday.binding.EnquiryForm;
 import com.uday.binding.EnquirySearchCriteria;
+import com.uday.constants.AppConstants;
 import com.uday.entity.CourseEntity;
 import com.uday.entity.EnqStatusEntity;
 import com.uday.entity.StudentEnqEntity;
@@ -104,7 +105,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 		StudentEnqEntity enqEntity = new StudentEnqEntity();
 		BeanUtils.copyProperties(form, enqEntity);
 
-		Integer userId = (Integer) session.getAttribute("userId");
+		Integer userId = (Integer) session.getAttribute(AppConstants.STR_USER_ID);
 
 		UserDtlsEntity userDtlsEntity = userDtlsRepo.findById(userId).get();
 		enqEntity.setUser(userDtlsEntity);
@@ -116,7 +117,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 	@Override
 	public List<StudentEnqEntity> getEnquiries() {
 
-		Integer userId = (Integer) session.getAttribute("userId");
+		Integer userId = (Integer) session.getAttribute(AppConstants.STR_USER_ID );
 
 		Optional<UserDtlsEntity> findById = userDtlsRepo.findById(userId);
 		if (findById.isPresent()) {

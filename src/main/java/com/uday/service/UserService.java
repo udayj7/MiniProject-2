@@ -11,9 +11,12 @@ public interface UserService {
 	public boolean signUp(SignUpForm form);
 
 	public boolean unloackAccount(UnlockForm form);
+
 //
 //	public String forgotPwd(String email);
 //
 	public String login(LoginForm form);
+
+	public boolean forgotPwd(String email);
 
 }

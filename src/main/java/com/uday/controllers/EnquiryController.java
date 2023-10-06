@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.uday.binding.DashboardResponse;
 import com.uday.binding.EnquiryForm;
 import com.uday.binding.EnquirySearchCriteria;
+import com.uday.constants.AppConstants;
 import com.uday.entity.StudentEnqEntity;
 import com.uday.service.EnquiryService;
 
@@ -37,7 +38,7 @@ public class EnquiryController {
 	@GetMapping("/dashboard")
 	public String dashboardPage(Model model) {
 
-		Integer userId = (Integer) session.getAttribute("userId");
+		Integer userId = (Integer) session.getAttribute(AppConstants.STR_USER_ID);
 
 		DashboardResponse dashboardData = enqService.getDashboardData(userId);
 
@@ -100,7 +101,7 @@ public class EnquiryController {
 		criteria.setClassMode(mode);
 		criteria.setEnqStatus(status);
 
-		Integer userId = (Integer) session.getAttribute("userId");
+		Integer userId = (Integer) session.getAttribute(AppConstants.STR_USER_ID);
 		List<StudentEnqEntity> filteredEnqs = enqService.getFilteredEnqs(criteria, userId);
 
 		model.addAttribute("enquiries", filteredEnqs);

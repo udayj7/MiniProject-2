@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.uday.binding.LoginForm;
 import com.uday.binding.SignUpForm;
 import com.uday.binding.UnlockForm;
+import com.uday.constants.AppConstants;
 import com.uday.entity.UserDtlsEntity;
 import com.uday.repo.UserDtlsRepo;
 import com.uday.util.EmailUtils;
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
 		if (entity.getPwd().equals(form.getTempPwd())) {
 			entity.setPwd(form.getNewPwd());
-			entity.setAccStatus("UnLocked");
+			entity.setAccStatus(AppConstants.STR_UNLOCKED);
 			userDtlsRepo.save(entity);
 			return true;
 		} else {
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
 		// TODO : Send email to user unlock the account
 		String to = form.getEmail();
-		String subject = "Unlock Your Account | Ashok IT";
+		String subject = AppConstants.UNLOCK_EMAIL_SUBJECT;
 
 		StringBuffer body = new StringBuffer("");
 		body.append("<h1> Use below temporary password to unlock your account</h1>");
@@ -85,17 +86,37 @@ public class UserServiceImpl implements UserService {
 		UserDtlsEntity entity = userDtlsRepo.findByEmailAndPwd(form.getEmail(), form.getPwd());
 
 		if (entity == null) {
-			return "Invalid Credentials";
+			return AppConstants.INVALID_CREDENTIALS_MSG;
 		}
 
-		if (entity.getAccStatus().equals("LOCKED")) {
-			return "Your Account Locked";
+		if (entity.getAccStatus().equals(AppConstants.STR_LOCKED)) {
+			return AppConstants.STR_ACC_LOCKED_MSG;
 		}
 
 		// create session and store user data in session
-		session.setAttribute("userId", entity.getUserId());
+		session.setAttribute(AppConstants.STR_USER_ID, entity.getUserId());
 
-		return "Success";
+		return AppConstants.STR_SUCCESS;
+	}
+
+	@Override
+	public boolean forgotPwd(String email) {
+
+		// check record presence in db with given email
+		UserDtlsEntity entity = userDtlsRepo.findByEmail(email);
+
+		// if record not available return false
+		if (entity == null) {
+			return false;
+		}
+
+		// if record availabe send pwd to email and return true
+		String Subject = AppConstants.RECOVER_PWD_EMAIL_SUBJECT;
+		String body = "Your Pwd :: " + entity.getPwd();
+
+		emailUtils.sendEmail(email, Subject, body);
+
+		return true;
 	}
 
 }
