@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uday.binding.DashboardResponse;
 import com.uday.binding.EnquiryForm;
+import com.uday.binding.EnquirySearchCriteria;
+import com.uday.entity.StudentEnqEntity;
 import com.uday.service.EnquiryService;
 
 @Controller
@@ -60,7 +62,11 @@ public class EnquiryController {
 
 	@GetMapping("/enquiry")
 	public String addEnquiryPage(Model model) {
+		initForm(model);
+		return "add-enquiry";
+	}
 
+	private void initForm(Model model) {
 		// get courses for drop down
 		List<String> courses = enqService.getCourse();
 
@@ -74,12 +80,13 @@ public class EnquiryController {
 		model.addAttribute("courseNames", courses);
 		model.addAttribute("statusNames", enqStatuses);
 		model.addAttribute("formObj", formObj);
-
-		return "add-enquiry";
 	}
 
 	@GetMapping("/enquires")
-	public String viewEnquiesPage() {
+	public String viewEnquiesPage(Model model) {
+		initForm(model);
+		List<StudentEnqEntity> enquiries = enqService.getEnquiries();
+		model.addAttribute("enquiries", enquiries);
 		return "view-enquiries";
 	}
 

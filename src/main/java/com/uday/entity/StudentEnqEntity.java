@@ -25,6 +25,7 @@ public class StudentEnqEntity {
 	private Integer enqtId;
 
 	private String studentName;
+	private String courseName;
 
 	private Long studentPhno;
 

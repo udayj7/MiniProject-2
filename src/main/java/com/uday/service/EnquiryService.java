@@ -5,6 +5,7 @@ import java.util.List;
 import com.uday.binding.DashboardResponse;
 import com.uday.binding.EnquiryForm;
 import com.uday.binding.EnquirySearchCriteria;
+import com.uday.entity.StudentEnqEntity;
 
 public interface EnquiryService {
 
@@ -15,6 +16,8 @@ public interface EnquiryService {
 	public List<String> getEnquStatuses();
 
 	public boolean saveEnquiry(EnquiryForm form);
+	
+	public List<StudentEnqEntity> getEnquiries();
 
 //	public String upsertEnquiry(EnquiryForm form);
 //

@@ -68,6 +68,8 @@
 												placeholder="Student Name" th:field="*{studentName}" /> <label
 												class="form-label" for="form2Example11">Student Name</label>
 										</div>
+										
+										
 
 										<div class="form-outline mb-4">
 											<input type="number" id="form2Example12" class="form-control"
@@ -89,7 +91,7 @@
 										<div class="form-outline mb-4">
 											<label class="form-label" for="form2Example14">Course</label>
 											<select id="form2Example14" class="form-select"
-												th:field="*{couseName}">
+												th:field="*{courseName}">
 												<option value="">-Select-</option>
 												<option th:each="course : ${courseNames}"
 													th:value="${course}" th:text="${course}"></option>

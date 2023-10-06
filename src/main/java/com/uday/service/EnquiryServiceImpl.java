@@ -104,27 +104,26 @@ public class EnquiryServiceImpl implements EnquiryService {
 		BeanUtils.copyProperties(form, enqEntity);
 
 		Integer userId = (Integer) session.getAttribute("userId");
-		
+
 		UserDtlsEntity userDtlsEntity = userDtlsRepo.findById(userId).get();
 		enqEntity.setUser(userDtlsEntity);
 		enqRepo.save(enqEntity);
 
 		return true;
 	}
+
+	@Override
+	public List<StudentEnqEntity> getEnquiries() {
+
+		Integer userId = (Integer) session.getAttribute("userId");
+
+		Optional<UserDtlsEntity> findById = userDtlsRepo.findById(userId);
+		if (findById.isPresent()) {
+			UserDtlsEntity userDtlsEntity = findById.get();
+			List<StudentEnqEntity> enquiries = userDtlsEntity.getEnquiries();
+			return enquiries;
+		}
+
+		return null;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
