@@ -90,4 +90,22 @@ public class EnquiryController {
 		return "view-enquiries";
 	}
 
+	@GetMapping("/filter-enquiries")
+	public String getFilteredEnqs(@RequestParam String cname,
+			@RequestParam String status, 
+			@RequestParam String mode,
+			Model model) {
+		EnquirySearchCriteria criteria = new EnquirySearchCriteria();
+		criteria.setCourseName(cname);
+		criteria.setClassMode(mode);
+		criteria.setEnqStatus(status);
+
+		Integer userId = (Integer) session.getAttribute("userId");
+		List<StudentEnqEntity> filteredEnqs = enqService.getFilteredEnqs(criteria, userId);
+
+		model.addAttribute("enquiries", filteredEnqs);
+
+		return "filter-enquiries-page";
+	}
+
 }

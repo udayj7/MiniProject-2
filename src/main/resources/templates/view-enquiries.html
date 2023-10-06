@@ -17,6 +17,30 @@
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
 <!-- MDB -->
 <link rel="stylesheet" href="css/bootstrap-login-form.min.css" />
+<script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+
+<Script>
+	$(document).ready(function() {
+		$(".form-select").on("change", function(e) {
+			$.ajax({
+				type : "GET",
+				url : "filter-enquiries",
+				data : {
+					cname : $("#cname").val(),
+					status : $("#status").val(),
+					mode : $("#mode").val()
+				},
+				success : function(result) {
+					$("#enqTbl").hide();
+					$("#filterResultTbl").html(result);
+				}
+
+			});
+		});
+	});
+</Script>
+
+
 
 </head>
 
@@ -90,7 +114,7 @@
 
 
 
-									<div id="filterTable"></div>
+									<div id="filterResultTbl"></div>
 									<table class="table table-striped table-bordered table-hover"
 										id="enqTbl">
 										<thead>
@@ -111,10 +135,10 @@
 												<td th:text="${enq.studentName}"></td>
 												<td th:text="${enq.courseName}"></td>
 												<td th:text="${enq.studentPhno}"></td>
-												<td th:text ="${enq.dateCreated}"></td>
+												<td th:text="${enq.dateCreated}"></td>
 												<td th:text="${enq.enqStatus}"></td>
 												<td th:text="${enq.classMode}"></td>
-												<td><a th:href="@{/enq}">Edit</a></td>
+												<td><a th:href="@{/edit}">Edit</a></td>
 											</tr>
 										</tbody>
 									</table>

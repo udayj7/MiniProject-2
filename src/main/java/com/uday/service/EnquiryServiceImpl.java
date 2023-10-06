@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.uday.binding.DashboardResponse;
 import com.uday.binding.EnquiryForm;
+import com.uday.binding.EnquirySearchCriteria;
 import com.uday.entity.CourseEntity;
 import com.uday.entity.EnqStatusEntity;
 import com.uday.entity.StudentEnqEntity;
@@ -121,6 +122,35 @@ public class EnquiryServiceImpl implements EnquiryService {
 		if (findById.isPresent()) {
 			UserDtlsEntity userDtlsEntity = findById.get();
 			List<StudentEnqEntity> enquiries = userDtlsEntity.getEnquiries();
+			return enquiries;
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<StudentEnqEntity> getFilteredEnqs(EnquirySearchCriteria criteria, Integer userId) {
+
+		Optional<UserDtlsEntity> findById = userDtlsRepo.findById(userId);
+		if (findById.isPresent()) {
+			UserDtlsEntity userDtlsEntity = findById.get();
+			List<StudentEnqEntity> enquiries = userDtlsEntity.getEnquiries();
+
+			// filter logic
+
+			if (null != criteria.getCourseName() && !"".equals(criteria.getCourseName())) {
+				enquiries = enquiries.stream().filter(e -> e.getCourseName().equals(criteria.getCourseName()))
+						.collect(Collectors.toList());
+			}
+			if (null != criteria.getEnqStatus() && !"".equals(criteria.getEnqStatus())) {
+				enquiries = enquiries.stream().filter(e -> e.getEnqStatus().equals(criteria.getEnqStatus()))
+						.collect(Collectors.toList());
+			}
+			if (null != criteria.getClassMode() && !"".equals(criteria.getClassMode())) {
+				enquiries = enquiries.stream().filter(e -> e.getClassMode().equals(criteria.getClassMode()))
+						.collect(Collectors.toList());
+			}
+
 			return enquiries;
 		}
 

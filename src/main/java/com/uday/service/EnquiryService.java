@@ -16,8 +16,10 @@ public interface EnquiryService {
 	public List<String> getEnquStatuses();
 
 	public boolean saveEnquiry(EnquiryForm form);
-	
+
 	public List<StudentEnqEntity> getEnquiries();
+
+	public List<StudentEnqEntity> getFilteredEnqs(EnquirySearchCriteria criteria, Integer userId);
 
 //	public String upsertEnquiry(EnquiryForm form);
 //
